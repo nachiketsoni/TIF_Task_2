@@ -87,7 +87,7 @@ const InterviewDetailsForm: React.FC = () => {
   };
 
   return (
-    <Box width="100%" as="form" onSubmit={handleSubmit}>
+    <Box width="100%" as="form" onSubmit={handleSubmit as any}>
       <Box width="100%">
         <FormSelect
           label="Interview Mode"

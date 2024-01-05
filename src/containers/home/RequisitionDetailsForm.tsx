@@ -86,7 +86,7 @@ const RequisitionDetailsForm: React.FC = () => {
   }, [values, dispatch]);
 
   return (
-    <Box width="100%" as="form" onSubmit={handleSubmit}>
+    <Box width="100%" as="form" onSubmit={handleSubmit as any}>
       <Box width="100%">
         <FormInput
           label="Requisition Title"
@@ -131,7 +131,7 @@ const RequisitionDetailsForm: React.FC = () => {
           value={values.urgency}
         />
         <Flex w="100%" justify="flex-end" mt="4rem">
-          <Button colorScheme="red" onClick={handleSubmit} type="submit">
+          <Button colorScheme="red"  type="submit">
             Next
           </Button>
         </Flex>
