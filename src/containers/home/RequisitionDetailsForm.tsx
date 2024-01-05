@@ -1,6 +1,6 @@
 import { Button, Flex, Box } from "@chakra-ui/react";
 import React, { useEffect } from "react";
-import { useFormik } from "formik";
+import { useFormik, FormikValues, FormikHelpers } from "formik";
 import * as Yup from "yup";
 
 import FormInput from "../../components/formComponents/FormInput";
@@ -10,6 +10,10 @@ import { genderOptions, urgencyOptions } from "./constants";
 import { useDispatch, useSelector } from "react-redux";
 import { ActiveTab, updateValue } from "@src/slices/FormHelperSlice";
 import { RootState } from "@src/store";
+
+interface FormValues extends IRequisitionDetails {
+  // Add other properties as needed
+}
 
 const RequisitionDetailsForm: React.FC = () => {
   const dispatch = useDispatch();
@@ -24,16 +28,16 @@ const RequisitionDetailsForm: React.FC = () => {
     values,
     setFieldTouched,
     setFieldValue,
-  } = useFormik<IRequisitionDetails>({
+  } = useFormik<FormValues>({
     initialValues: {
-      requisitionTitle: store?.requisitionTitle ?? "",
-      noOfOpenings: store?.noOfOpenings ?? 0,
+      requisitionTitle: store?.requisitionTitle || "",
+      noOfOpenings: store?.noOfOpenings || 0,
       urgency:
-        urgencyOptions.filter((val) => val.label == store?.urgency)[0]?.value ??
-        "",
+        (urgencyOptions.find((val) => val.label === store?.urgency) || {})
+          .value || "",
       gender:
-        genderOptions.filter((val) => val.label == store?.gender)[0]?.value ??
-        "",
+        (genderOptions.find((val) => val.label === store?.gender) || {})
+          .value || "",
     },
     validationSchema: Yup.object().shape({
       requisitionTitle: Yup.string().required("Requisition title is required"),
@@ -45,9 +49,13 @@ const RequisitionDetailsForm: React.FC = () => {
       urgency: Yup.string().required("Urgency is required"),
       gender: Yup.string().required("Gender is required"),
     }),
-    onSubmit: (values) => {
-      //  Go to Next Step
+    onSubmit: (
+      values: FormValues,
+      { setSubmitting }: FormikHelpers<FormValues>
+    ) => {
+      // Go to Next Step
       dispatch(ActiveTab(1));
+      setSubmitting(false);
     },
   });
 
@@ -64,19 +72,22 @@ const RequisitionDetailsForm: React.FC = () => {
         },
         {
           name: "gender",
-          value: genderOptions.filter((val) => val.value == values.gender)[0]
-            ?.label,
+          value:
+            (genderOptions.find((val) => val.value === values.gender) || {})
+              .label || "",
         },
         {
           name: "urgency",
-          value: urgencyOptions[values?.urgency]?.label,
+          value:
+            (urgencyOptions.find((val) => val.value === values?.urgency) || {})
+              .label || "",
         },
       ])
     );
-  }, [values]);
+  }, [values, dispatch]);
 
   return (
-    <Box width="100%" as="form" onSubmit={handleSubmit as any}>
+    <Box width="100%" as="form" onSubmit={handleSubmit}>
       <Box width="100%">
         <FormInput
           label="Requisition Title"
@@ -121,7 +132,7 @@ const RequisitionDetailsForm: React.FC = () => {
           value={values.urgency}
         />
         <Flex w="100%" justify="flex-end" mt="4rem">
-          <Button colorScheme="red" onClick={handleSubmit as any} type="submit">
+          <Button colorScheme="red" onClick={handleSubmit} type="submit">
             Next
           </Button>
         </Flex>

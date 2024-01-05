@@ -1,7 +1,7 @@
-import { Button, Flex, Box } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { Button, Flex, Box } from "@chakra-ui/react";
 import FormSelect from "../../components/formComponents/FormSelect";
 import { IInterViewSettings } from "../../interface/forms";
 import {
@@ -14,9 +14,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@src/store";
 
 const InterviewDetailsForm: React.FC = () => {
-const store = useSelector((store: RootState) => store.FormHelper);
-
   const dispatch = useDispatch();
+  const store = useSelector((store: RootState) => store.FormHelper);
+
   const {
     errors,
     touched,
@@ -27,17 +27,16 @@ const store = useSelector((store: RootState) => store.FormHelper);
   } = useFormik<IInterViewSettings>({
     initialValues: {
       interviewMode:
-        interviewModeOptions.filter(
-          (val) => val.label == store?.interviewMode
-        )[0]?.value ?? "",
+        interviewModeOptions.find((val) => val.label === store?.interviewMode)
+          ?.value || "",
       interviewDuration:
-        interviewDurationOptions.filter(
-          (val) => val.label == store?.interviewDuration
-        )[0]?.value ?? "",
+        interviewDurationOptions.find(
+          (val) => val.label === store?.interviewDuration
+        )?.value || "",
       interviewLanguage:
-        interviewLanguageOptions.filter(
-          (val) => val.label == store?.interviewLanguage
-        )[0]?.value ?? "",
+        interviewLanguageOptions.find(
+          (val) => val.label === store?.interviewLanguage
+        )?.value || "",
     },
     validationSchema: Yup.object().shape({
       interviewMode: Yup.string().required("Interview Mode is required"),
@@ -59,31 +58,32 @@ const store = useSelector((store: RootState) => store.FormHelper);
       updateValue([
         {
           name: "interviewMode",
-          value: interviewModeOptions.filter(
-            (val) => val.value == values.interviewMode
-          )[0]?.label,
+          value: interviewModeOptions.find(
+            (val) => val.value === values.interviewMode
+          )?.label,
         },
         {
           name: "interviewDuration",
-          value: interviewDurationOptions.filter(
-            (val) => val.value == values.interviewDuration
-          )[0]?.label,
+          value: interviewDurationOptions.find(
+            (val) => val.value === values.interviewDuration
+          )?.label,
         },
         {
           name: "interviewLanguage",
-          value: interviewLanguageOptions.filter(
-            (val) => val.value == values.interviewLanguage
-          )[0]?.label,
+          value: interviewLanguageOptions.find(
+            (val) => val.value === values.interviewLanguage
+          )?.label,
         },
       ])
     );
   }, [values]);
+
   const prevTab = () => {
     dispatch(ActiveTab(1));
   };
 
   return (
-    <Box width="100%" as="form" onSubmit={handleSubmit as any}>
+    <Box width="100%" as="form" onSubmit={handleSubmit}>
       <Box width="100%">
         <FormSelect
           label="Interview Mode"
@@ -108,7 +108,7 @@ const store = useSelector((store: RootState) => store.FormHelper);
           touched={touched?.interviewDuration}
         />
         <FormSelect
-          label="Job Location"
+          label="Interview Language"
           name="interviewLanguage"
           placeholder="Select interview language"
           options={interviewLanguageOptions}
