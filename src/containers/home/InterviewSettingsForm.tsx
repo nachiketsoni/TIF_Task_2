@@ -11,9 +11,10 @@ import {
 } from "./constants";
 import { ActiveTab, updateValue } from "@src/slices/FormHelperSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@src/store";
 
 const InterviewDetailsForm: React.FC = () => {
-  const store = useSelector((store) => store.FormHelper);
+const store = useSelector((store: RootState) => store.FormHelper);
 
   const dispatch = useDispatch();
   const {

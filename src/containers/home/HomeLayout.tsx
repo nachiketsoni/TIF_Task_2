@@ -16,6 +16,7 @@ import JobDetailsForm from "./JobDetailsForm";
 import RequisitionForm from "./RequisitionDetailsForm";
 import DisplayCard from "./PreviewCard";
 import { useSelector } from "react-redux";
+import { RootState } from "@src/store";
 
 const CustomTab: React.FC<TabProps> = ({ children }) => {
   return (
@@ -27,10 +28,8 @@ const CustomTab: React.FC<TabProps> = ({ children }) => {
 
 const HomeLayout = () => {
   // const [activeTab, setActiveTab] = useState(0);
-  const { activeTab } = useSelector((store) => store.FormHelper);
-  const handleTabClick = (index) => {
-    setActiveTab(index);
-  };
+ const { activeTab } = useSelector((store: RootState) => store.FormHelper);
+
 
   return (
     <Box w="100%">

@@ -7,10 +7,12 @@ import FormInput from "../../components/formComponents/FormInput";
 import { IJobDetails } from "../../interface/forms";
 import { useDispatch, useSelector } from "react-redux";
 import { ActiveTab, updateValue } from "@src/slices/FormHelperSlice";
+import { RootState } from "@src/store";
 
 const JobDetailsForm: React.FC = () => {
   const dispatch = useDispatch();
-  const store = useSelector((store) => store.FormHelper);
+const store = useSelector((store: RootState) => store.FormHelper);
+
 
   const { handleChange, errors, touched, handleBlur, handleSubmit, values } =
     useFormik<IJobDetails>({

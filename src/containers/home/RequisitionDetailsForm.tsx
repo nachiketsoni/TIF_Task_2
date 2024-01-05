@@ -9,10 +9,12 @@ import { IRequisitionDetails } from "../../interface/forms";
 import { genderOptions, urgencyOptions } from "./constants";
 import { useDispatch, useSelector } from "react-redux";
 import { ActiveTab, updateValue } from "@src/slices/FormHelperSlice";
+import { RootState } from "@src/store";
 
 const RequisitionDetailsForm: React.FC = () => {
   const dispatch = useDispatch();
-  const store = useSelector((store) => store.FormHelper);
+  const store = useSelector((store: RootState) => store.FormHelper);
+
   const {
     handleChange,
     errors,
