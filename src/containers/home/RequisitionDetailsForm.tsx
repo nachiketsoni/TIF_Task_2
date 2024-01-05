@@ -60,30 +60,29 @@ const RequisitionDetailsForm: React.FC = () => {
   });
 
   useEffect(() => {
-    dispatch(
-      updateValue([
-        {
-          name: "requisitionTitle",
-          value: values.requisitionTitle,
-        },
-        {
-          name: "noOfOpenings",
-          value: values.noOfOpenings,
-        },
-        {
-          name: "gender",
-          value:
-            (genderOptions.find((val) => val.value === values.gender) || {})
-              .label || "",
-        },
-        {
-          name: "urgency",
-          value:
-            (urgencyOptions.find((val) => val.value === values?.urgency) || {})
-              .label || "",
-        },
-      ])
-    );
+  dispatch(
+    updateValue([
+      {
+        name: "requisitionTitle",
+        value: values.requisitionTitle as string,
+      },
+      {
+        name: "noOfOpenings",
+        value: values.noOfOpenings as number,
+      },
+      {
+        name: "gender",
+        value: (genderOptions.find((val) => val.value === values.gender) || {})
+          .label as string,
+      },
+      {
+        name: "urgency",
+        value: (
+          urgencyOptions.find((val) => val.value === values?.urgency) || {}
+        ).label as string,
+      },
+    ])
+  );
   }, [values, dispatch]);
 
   return (

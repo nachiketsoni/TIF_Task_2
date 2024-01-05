@@ -54,28 +54,32 @@ const InterviewDetailsForm: React.FC = () => {
   });
 
   useEffect(() => {
-    dispatch(
-      updateValue([
-        {
-          name: "interviewMode",
-          value: interviewModeOptions.find(
+  dispatch(
+    updateValue([
+      {
+        name: "interviewMode",
+        value:
+          (interviewModeOptions.find(
             (val) => val.value === values.interviewMode
-          )?.label,
-        },
-        {
-          name: "interviewDuration",
-          value: interviewDurationOptions.find(
+          )?.label as string) || "",
+      },
+      {
+        name: "interviewDuration",
+        value:
+          (interviewDurationOptions.find(
             (val) => val.value === values.interviewDuration
-          )?.label,
-        },
-        {
-          name: "interviewLanguage",
-          value: interviewLanguageOptions.find(
+          )?.label as string) || "",
+      },
+      {
+        name: "interviewLanguage",
+        value:
+          (interviewLanguageOptions.find(
             (val) => val.value === values.interviewLanguage
-          )?.label,
-        },
-      ])
-    );
+          )?.label as string) || "",
+      },
+    ])
+  );
+
   }, [values]);
 
   const prevTab = () => {

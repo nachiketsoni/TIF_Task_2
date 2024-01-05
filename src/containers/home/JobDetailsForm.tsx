@@ -35,13 +35,14 @@ const JobDetailsForm: React.FC = () => {
   };
 
   useEffect(() => {
-    dispatch(
-      updateValue([
-        { name: "jobTitle", value: values.jobTitle },
-        { name: "jobDetails", value: values.jobDetails },
-        { name: "jobLocation", value: values.jobLocation },
-      ])
-    );
+ dispatch(
+   updateValue([
+     { name: "jobTitle", value: values.jobTitle as string },
+     { name: "jobDetails", value: values.jobDetails as string },
+     { name: "jobLocation", value: values.jobLocation as string },
+   ])
+ );
+
   }, [values, dispatch]);
 
   return (
