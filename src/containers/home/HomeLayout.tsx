@@ -16,13 +16,14 @@ import RequisitionForm from "./RequisitionDetailsForm";
 import DisplayCard from "./PreviewCard";
 import { useSelector } from "react-redux";
 
-const CustomTab = ({ children }) => {
+const CustomTab: React.FC<TabProps> = ({ children }) => {
   return (
     <Tab p="1rem" fontFamily="Poppins">
       {children}
     </Tab>
   );
 };
+
 const HomeLayout = () => {
   // const [activeTab, setActiveTab] = useState(0);
   const { activeTab } = useSelector((store) => store.FormHelper);
