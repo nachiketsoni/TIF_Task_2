@@ -5,7 +5,7 @@ import { FormHelperState } from "@src/interface/forms";
 
 const initialState: FormHelperState = {
   requisitionTitle: "",
-  noOfOpenings: 0,
+  noOfOpenings: "0",
   urgency: "",
   gender: "",
   jobTitle: "",

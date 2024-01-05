@@ -71,7 +71,7 @@ export interface IRequisitionDetails {
 }
 export interface FormHelperState {
   requisitionTitle: string;
-  noOfOpenings: number;
+  noOfOpenings: string;
   urgency: string;
   gender: string;
   jobTitle: string;
