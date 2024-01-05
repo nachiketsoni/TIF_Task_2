@@ -45,7 +45,7 @@ const FormHelperSlice = createSlice({
     updateValue: (state, action: PayloadAction<UpdateValuePayload[]>) => {
       action.payload.forEach((val) => {
         // Use cast to any to avoid TypeScript error
-        (state as Draft<FormHelperStat>)[val.name] = val.value;
+           (state as Draft<FormHelperState>)[val.name] = val.value as never;
       });
     },
     ActiveTab: (state, action: PayloadAction<number>) => {
