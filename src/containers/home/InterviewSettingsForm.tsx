@@ -1,7 +1,7 @@
 import { Button, Flex, Box } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
-
+import * as Yup from "yup";
 import FormSelect from "../../components/formComponents/FormSelect";
 import { IInterViewSettings } from "../../interface/forms";
 import {
@@ -9,8 +9,13 @@ import {
   interviewLanguageOptions,
   interviewModeOptions,
 } from "./constants";
+import { ActiveTab, updateValue } from "@src/slices/FormHelperSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const InterviewDetailsForm: React.FC = () => {
+  const store = useSelector((store) => store.FormHelper);
+
+  const dispatch = useDispatch();
   const {
     errors,
     touched,
@@ -20,15 +25,61 @@ const InterviewDetailsForm: React.FC = () => {
     setFieldValue,
   } = useFormik<IInterViewSettings>({
     initialValues: {
-      interviewMode: "",
-      interviewDuration: "",
-      interviewLanguage: "",
+      interviewMode:
+        interviewModeOptions.filter(
+          (val) => val.label == store?.interviewMode
+        )[0]?.value || "",
+      interviewDuration:
+        interviewDurationOptions.filter(
+          (val) => val.label == store?.interviewDuration
+        )[0]?.value || "",
+      interviewLanguage:
+        interviewLanguageOptions.filter(
+          (val) => val.label == store?.interviewLanguage
+        )[0]?.value || "",
     },
+    validationSchema: Yup.object().shape({
+      interviewMode: Yup.string().required("Interview Mode is required"),
+      interviewDuration: Yup.string().required(
+        "Interview Duration is required"
+      ),
+      interviewLanguage: Yup.string().required(
+        "Interview Language is required"
+      ),
+    }),
     onSubmit: (values) => {
-      console.log({ values });
+      console.log(store);
       alert("Form successfully submitted");
     },
   });
+
+  useEffect(() => {
+    dispatch(
+      updateValue([
+        {
+          name: "interviewMode",
+          value: interviewModeOptions.filter(
+            (val) => val.value == values.interviewMode
+          )[0]?.label,
+        },
+        {
+          name: "interviewDuration",
+          value: interviewDurationOptions.filter(
+            (val) => val.value == values.interviewDuration
+          )[0]?.label,
+        },
+        {
+          name: "interviewLanguage",
+          value: interviewLanguageOptions.filter(
+            (val) => val.value == values.interviewLanguage
+          )[0]?.label,
+        },
+      ])
+    );
+  }, [values]);
+  const prevTab = () => {
+    dispatch(ActiveTab(1));
+  };
 
   return (
     <Box width="100%" as="form" onSubmit={handleSubmit as any}>
@@ -67,7 +118,7 @@ const InterviewDetailsForm: React.FC = () => {
           value={values.interviewLanguage}
         />
         <Flex w="100%" justify="flex-end" mt="4rem" gap="20px">
-          <Button colorScheme="gray" type="button">
+          <Button colorScheme="gray" onClick={prevTab} type="button">
             Previous
           </Button>
           <Button colorScheme="red" type="submit">

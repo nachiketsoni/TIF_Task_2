@@ -69,3 +69,16 @@ export interface IRequisitionDetails {
   urgency: string;
   gender: string;
 }
+export interface FormHelperState {
+  requisitionTitle: string;
+  noOfOpenings: number;
+  urgency: string;
+  gender: string;
+  jobTitle: string;
+  jobDetails: string;
+  jobLocation: string;
+  interviewDuration: string;
+  interviewLanguage: string;
+  interviewMode: string;
+  activeTab: number;
+}

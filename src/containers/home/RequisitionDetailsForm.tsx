@@ -1,5 +1,5 @@
 import { Button, Flex, Box } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -7,8 +7,12 @@ import FormInput from "../../components/formComponents/FormInput";
 import FormSelect from "../../components/formComponents/FormSelect";
 import { IRequisitionDetails } from "../../interface/forms";
 import { genderOptions, urgencyOptions } from "./constants";
+import { useDispatch, useSelector } from "react-redux";
+import { ActiveTab, updateValue } from "@src/slices/FormHelperSlice";
 
 const RequisitionDetailsForm: React.FC = () => {
+  const dispatch = useDispatch();
+  const store = useSelector((store) => store.FormHelper);
   const {
     handleChange,
     errors,
@@ -20,10 +24,14 @@ const RequisitionDetailsForm: React.FC = () => {
     setFieldValue,
   } = useFormik<IRequisitionDetails>({
     initialValues: {
-      requisitionTitle: "",
-      noOfOpenings: 0,
-      urgency: "",
-      gender: "",
+      requisitionTitle: store?.requisitionTitle || "",
+      noOfOpenings: store?.noOfOpenings || 0,
+      urgency:
+        urgencyOptions.filter((val) => val.label == store?.urgency)[0]?.value ||
+        "",
+      gender:
+        genderOptions.filter((val) => val.label == store?.gender)[0]?.value ||
+        "",
     },
     validationSchema: Yup.object().shape({
       requisitionTitle: Yup.string().required("Requisition title is required"),
@@ -37,8 +45,33 @@ const RequisitionDetailsForm: React.FC = () => {
     }),
     onSubmit: (values) => {
       //  Go to Next Step
+      dispatch(ActiveTab(1));
     },
   });
+
+  useEffect(() => {
+    dispatch(
+      updateValue([
+        {
+          name: "requisitionTitle",
+          value: values.requisitionTitle,
+        },
+        {
+          name: "noOfOpenings",
+          value: values.noOfOpenings,
+        },
+        {
+          name: "gender",
+          value: genderOptions.filter((val) => val.value == values.gender)[0]
+            ?.label,
+        },
+        {
+          name: "urgency",
+          value: urgencyOptions[values?.urgency]?.label,
+        },
+      ])
+    );
+  }, [values]);
 
   return (
     <Box width="100%" as="form" onSubmit={handleSubmit as any}>
@@ -86,7 +119,7 @@ const RequisitionDetailsForm: React.FC = () => {
           value={values.urgency}
         />
         <Flex w="100%" justify="flex-end" mt="4rem">
-          <Button colorScheme="red" type="submit">
+          <Button colorScheme="red" onClick={handleSubmit as any} type="submit">
             Next
           </Button>
         </Flex>

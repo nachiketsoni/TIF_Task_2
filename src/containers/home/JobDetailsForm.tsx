@@ -1,30 +1,57 @@
 import { Button, Flex, Box } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import FormInput from "../../components/formComponents/FormInput";
 import { IJobDetails } from "../../interface/forms";
+import { useDispatch, useSelector } from "react-redux";
+import { ActiveTab, updateValue } from "@src/slices/FormHelperSlice";
 
 const JobDetailsForm: React.FC = () => {
+  const dispatch = useDispatch();
+  const store = useSelector((store) => store.FormHelper);
+
   const { handleChange, errors, touched, handleBlur, handleSubmit, values } =
     useFormik<IJobDetails>({
       initialValues: {
-        jobTitle: "",
-        jobDetails: "",
-        jobLocation: "",
+        jobTitle: store?.jobTitle || "",
+        jobDetails: store?.jobDetails || "",
+        jobLocation: store?.jobLocation || "",
       },
       validationSchema: Yup.object().shape({
         jobTitle: Yup.string().required("Job Title is required"),
         jobDetails: Yup.string().required("Job Details is required"),
         jobLocation: Yup.string().required("Job Location is required"),
-        jobPosition: Yup.string().required("Job position is required"),
       }),
       onSubmit: (values) => {
-        console.log({ values });
+        dispatch(ActiveTab(2));
+
         // Go to next step
       },
     });
+  const prevTab = () => {
+    dispatch(ActiveTab(0));
+  };
+
+  useEffect(() => {
+    dispatch(
+      updateValue([
+        {
+          name: "jobTitle",
+          value: values.jobTitle,
+        },
+        {
+          name: "jobDetails",
+          value: values.jobDetails,
+        },
+        {
+          name: "jobLocation",
+          value: values.jobLocation,
+        },
+      ])
+    );
+  }, [values]);
 
   return (
     <Box width="100%" as="form" onSubmit={handleSubmit as any}>
@@ -60,10 +87,10 @@ const JobDetailsForm: React.FC = () => {
           value={values.jobLocation}
         />
         <Flex w="100%" justify="flex-end" mt="4rem" gap="20px">
-          <Button colorScheme="gray" type="button">
+          <Button colorScheme="gray" onClick={prevTab} type="button">
             Previous
           </Button>
-          <Button colorScheme="red" type="submit">
+          <Button colorScheme="red" onClick={handleSubmit as any} type="submit">
             Next
           </Button>
         </Flex>

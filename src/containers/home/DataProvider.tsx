@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
 
 const initialValues = {
-  requisitionDetails: {
+  FormHelper: {
     gender: "",
     noOfOpenings: 0,
     requisitionTitle: "",

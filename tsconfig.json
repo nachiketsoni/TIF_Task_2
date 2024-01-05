@@ -23,6 +23,6 @@
       "@store/*": ["src/store/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/slices/FormHelperSlice.ts"],
   "exclude": ["node_modules"]
 }
