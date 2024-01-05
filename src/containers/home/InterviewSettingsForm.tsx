@@ -29,15 +29,15 @@ const store = useSelector((store: RootState) => store.FormHelper);
       interviewMode:
         interviewModeOptions.filter(
           (val) => val.label == store?.interviewMode
-        )[0]?.value || "",
+        )[0]?.value ?? "",
       interviewDuration:
         interviewDurationOptions.filter(
           (val) => val.label == store?.interviewDuration
-        )[0]?.value || "",
+        )[0]?.value ?? "",
       interviewLanguage:
         interviewLanguageOptions.filter(
           (val) => val.label == store?.interviewLanguage
-        )[0]?.value || "",
+        )[0]?.value ?? "",
     },
     validationSchema: Yup.object().shape({
       interviewMode: Yup.string().required("Interview Mode is required"),

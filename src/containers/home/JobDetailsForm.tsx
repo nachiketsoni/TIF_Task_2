@@ -17,9 +17,9 @@ const store = useSelector((store: RootState) => store.FormHelper);
   const { handleChange, errors, touched, handleBlur, handleSubmit, values } =
     useFormik<IJobDetails>({
       initialValues: {
-        jobTitle: store?.jobTitle || "",
-        jobDetails: store?.jobDetails || "",
-        jobLocation: store?.jobLocation || "",
+        jobTitle: store?.jobTitle ?? "",
+        jobDetails: store?.jobDetails ?? "",
+        jobLocation: store?.jobLocation ?? "",
       },
       validationSchema: Yup.object().shape({
         jobTitle: Yup.string().required("Job Title is required"),

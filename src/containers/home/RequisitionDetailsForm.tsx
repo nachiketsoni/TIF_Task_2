@@ -26,13 +26,13 @@ const RequisitionDetailsForm: React.FC = () => {
     setFieldValue,
   } = useFormik<IRequisitionDetails>({
     initialValues: {
-      requisitionTitle: store?.requisitionTitle || "",
-      noOfOpenings: store?.noOfOpenings || 0,
+      requisitionTitle: store?.requisitionTitle ?? "",
+      noOfOpenings: store?.noOfOpenings ?? 0,
       urgency:
-        urgencyOptions.filter((val) => val.label == store?.urgency)[0]?.value ||
+        urgencyOptions.filter((val) => val.label == store?.urgency)[0]?.value ??
         "",
       gender:
-        genderOptions.filter((val) => val.label == store?.gender)[0]?.value ||
+        genderOptions.filter((val) => val.label == store?.gender)[0]?.value ??
         "",
     },
     validationSchema: Yup.object().shape({
