@@ -68,7 +68,7 @@ const RequisitionDetailsForm: React.FC = () => {
       },
       {
         name: "noOfOpenings",
-        value: String(values.noOfOpenings) as string,
+        value: Number(values.noOfOpenings) as number,
       },
       {
         name: "gender",

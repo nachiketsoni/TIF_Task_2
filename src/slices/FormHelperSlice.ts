@@ -5,7 +5,7 @@ import { FormHelperState } from "@src/interface/forms";
 
 const initialState: FormHelperState = {
   requisitionTitle: "",
-  noOfOpenings: "0",
+  noOfOpenings: 0,
   urgency: "",
   gender: "",
   jobTitle: "",
@@ -23,7 +23,7 @@ const FormHelperSlice = createSlice({
   reducers: {
     updateValue: (
       state,
-      action: PayloadAction<{ name: string, value: string }[]>
+      action: PayloadAction<{ name: any, value: any }[]>
     ) => {
       action.payload.forEach((val) => {
         state[val.name] = val.value;
