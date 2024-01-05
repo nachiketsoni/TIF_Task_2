@@ -1,4 +1,5 @@
 import { Box, Flex, Text, Grid } from "@chakra-ui/react";
+import { RootState } from "@src/store";
 import React from "react";
 import { useSelector } from "react-redux";
 
@@ -35,7 +36,7 @@ const KeyValue: React.FC<{
 };
 
 const PreviewCard: React.FC = () => {
-  const val = useSelector((store) => store.FormHelper);
+ const val = useSelector((store: RootState) => store.FormHelper);
 
   return (
     <Box p="1rem">
